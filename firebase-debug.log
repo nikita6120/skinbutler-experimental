@@ -1,0 +1,14 @@
+[debug] [2026-03-18T20:14:38.778Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T20:14:38.779Z] > authorizing via signed-in user (admin@sowelcome.io)
+[debug] [2026-03-18T20:14:38.779Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T20:14:38.779Z] > authorizing via signed-in user (admin@sowelcome.io)
+[debug] [2026-03-18T20:14:38.784Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T20:14:38.784Z] > authorizing via signed-in user (admin@sowelcome.io)
+[debug] [2026-03-18T20:14:38.880Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T20:14:38.880Z] > authorizing via signed-in user (admin@sowelcome.io)
+[debug] [2026-03-18T20:14:38.880Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T20:14:38.880Z] > authorizing via signed-in user (admin@sowelcome.io)
+[debug] [2026-03-18T20:14:39.143Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T20:14:39.143Z] > authorizing via signed-in user (admin@sowelcome.io)
+[debug] [2026-03-18T20:14:39.144Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-18T20:14:39.144Z] > authorizing via signed-in user (admin@sowelcome.io)
