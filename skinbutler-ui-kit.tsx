@@ -6,11 +6,11 @@ const radSm = 14;
 
 // ===== BRAND — Option C: Bold =====
 const B = {
-  grad: "linear-gradient(135deg, #1AAB9C 0%, #E8707A 100%)",
+  grad: "linear-gradient(135deg, #1AAB9C 0%, #E8864A 100%)",
   teal: "#1AAB9C",
-  blush: "#E8707A",
+  blush: "#E8864A",
   tealBg: "#E2F7F4",
-  blushBg: "#FDECEE",
+  blushBg: "#FDF0E5",
   success: "#1AAB9C",
   warning: "#D08C1A",
   warningBg: "#FDF4E5",
@@ -69,14 +69,21 @@ const Btn = ({label,v="primary",sz="md"}) => {
   return <button style={{fontFamily:F,fontWeight:600,border:"none",cursor:"pointer",borderRadius:radSm,transition:"all 0.25s ease",...s[sz],...vars[v]}}>{label}</button>;
 };
 
+const ringColor = (score) => {
+  if (score >= 75) return { from: "#34B87A", to: B.teal };    // green → teal (great)
+  if (score >= 50) return { from: B.teal, to: B.blush };       // teal → orange (mid)
+  return { from: B.blush, to: "#D85E5E" };                     // orange → red (needs work)
+};
+
 const Ring = ({score,size=88,dk,delay=0}) => {
   const [s,setS]=useState(0);
   useEffect(()=>{setS(0);const t=setTimeout(()=>setS(score),150+delay);return()=>clearTimeout(t);},[score]);
   const r=(size-12)/2,c=2*Math.PI*r,o=c-(s/100)*c,uid=`r${score}${size}${delay}${Math.random().toString(36).slice(2,5)}`;
+  const rc=ringColor(score);
   return <div style={{position:"relative",width:size,height:size}}>
     <svg width={size} height={size} style={{transform:"rotate(-90deg)",position:"absolute"}}>
       <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={dk?"rgba(255,255,255,0.05)":`${B.teal}12`} strokeWidth={9}/>
-      <defs><linearGradient id={uid} x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor={B.teal}/><stop offset="100%" stopColor={B.blush}/></linearGradient></defs>
+      <defs><linearGradient id={uid} x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor={rc.from}/><stop offset="100%" stopColor={rc.to}/></linearGradient></defs>
       <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={`url(#${uid})`} strokeWidth={9} strokeLinecap="round" strokeDasharray={c} strokeDashoffset={o} style={{transition:"stroke-dashoffset 1.4s cubic-bezier(0.25,0.46,0.45,0.94)"}}/>
     </svg>
     <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontFamily:F,fontSize:size*0.28,fontWeight:800,color:dk?B.dText:B.t900}}>{s}</span></div>
@@ -333,7 +340,7 @@ export default function Kit() {
 
       {/* ===== TOKENS ===== */}
       {tab==="tokens"&&<>
-        <Sec title="Brand Gradient — Option C: Bold"><Card><div style={{height:48,borderRadius:14,background:B.grad,marginBottom:14,boxShadow:`0 4px 20px rgba(26,171,156,0.22)`}}/><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}><Swatch name="Dopamine Teal" hex="#1AAB9C"/><Swatch name="Coral Rose" hex="#E8707A"/></div><div style={{marginTop:10}}><Swatch name="Teal BG" hex="#E2F7F4"/><Swatch name="Blush BG" hex="#FDECEE"/></div></Card></Sec>
+        <Sec title="Brand Gradient — Option C: Bold"><Card><div style={{height:48,borderRadius:14,background:B.grad,marginBottom:14,boxShadow:`0 4px 20px rgba(26,171,156,0.22)`}}/><div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}><Swatch name="Dopamine Teal" hex="#1AAB9C"/><Swatch name="Warm Sunset" hex="#E8864A"/></div><div style={{marginTop:10}}><Swatch name="Teal BG" hex="#E2F7F4"/><Swatch name="Blush BG" hex="#FDF0E5"/></div><div style={{marginTop:10}}><Swatch name="Score Green" hex="#34B87A"/></div></Card></Sec>
         <Sec title="Semantic"><Card><Swatch name="Success" hex="#1AAB9C"/><Swatch name="Warning" hex="#D08C1A"/><Swatch name="Error" hex="#D85E5E"/></Card></Sec>
         <Sec title="Light Surfaces"><Card><Swatch name="Page BG" hex="#F3F3F1"/><Swatch name="Card" hex="#FAFAF9" border/><Swatch name="Glass" hex="rgba(255,255,255,0.5)" border/></Card></Sec>
         <Sec title="Dark Surfaces"><Card><Swatch name="Background" hex="#101313"/><Swatch name="Surface" hex="#1C2121"/><Swatch name="Card" hex="#2D3333"/><Swatch name="Card Hover" hex="#353C3C"/></Card></Sec>
@@ -351,7 +358,7 @@ export default function Kit() {
       {tab==="principles"&&<>
         <Sec title="Design Principles" sub="Complete design system — Bold">
           {[
-            {t:"Bold gradient signature",d:"Teal #1AAB9C → Coral Rose #E8707A. High saturation that stops the scroll. This is 'dopamine teal' meeting warm coral — vivid enough to feel exciting on TikTok, distinct enough to own in the skincare space. The gradient glow shadow (22% opacity) adds physical presence to every active element."},
+            {t:"Bold gradient signature",d:"Teal #1AAB9C → Warm Sunset #E8864A. High saturation that stops the scroll. This is 'dopamine teal' meeting warm orange — vivid enough to feel exciting on TikTok, distinct enough to own in the skincare space. Score rings shift green (#34B87A) for high scores, orange→red for low. The gradient glow shadow (22% opacity) adds physical presence to every active element."},
             {t:"Calm surfaces, bold accents",d:"Backgrounds #F3F3F1 and cards #FAFAF9 stay warm and neutral. The gradient lives only on interactive elements — buttons, active pills, rings, checkboxes, links. The contrast between quiet surfaces and vivid accents is what makes it feel premium, not chaotic."},
             {t:"Glass reserved for heroes",d:"One frosted glass element per screen plus overlays. Everything else solid. Glass moments feel premium because they're rare."},
             {t:"Three-layer dark depth",d:"Background #101313 → Surface #1C2121 → Card #2D3333. Each clearly distinct. Borders at 10-14% white. The gradient becomes more luminous against dark surfaces."},
