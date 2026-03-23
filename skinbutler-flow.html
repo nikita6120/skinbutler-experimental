@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkinButler — User Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --skin: #F5EDE4;
+    --ink: #1A1410;
+    --ink2: #4A3F38;
+    --ink3: #8C7E76;
+    --purple: #5B4FCF;
+    --purple-light: #EAE8F9;
+    --purple-mid: #9B93E3;
+    --green: #1A7A5E;
+    --green-light: #E2F3EE;
+    --green-mid: #6EC4A8;
+    --amber: #C47A1A;
+    --amber-light: #FDF0DC;
+    --amber-mid: #F0B75A;
+    --red: #C43030;
+    --red-light: #FDEAEA;
+    --red-mid: #E88080;
+    --gray: #6B6460;
+    --gray-light: #F0EDE9;
+    --gray-mid: #BEB8B4;
+    --blue: #1A5FA0;
+    --blue-light: #E2EEF9;
+    --blue-mid: #6AAEE0;
+    --border: rgba(26,20,16,0.1);
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--skin);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    padding: 48px 48px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .header-left h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .header-left h1 em {
+    font-style: italic;
+    color: var(--purple);
+  }
+
+  .header-left p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--ink3);
+    font-weight: 300;
+  }
+
+  .header-right {
+    font-size: 12px;
+    color: var(--ink3);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* LEGEND */
+  .legend-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.4);
+  }
+
+  .leg {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--ink2);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px 4px 6px;
+  }
+
+  .leg-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* MAIN */
+  main {
+    padding: 32px 48px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 1100px;
+  }
+
+  /* SECTION */
+  .section {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(4px);
+    transition: box-shadow 0.2s;
+  }
+
+  .section:hover {
+    box-shadow: 0 4px 24px rgba(26,20,16,0.07);
+  }
+
+  .sec-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .sec-header:hover { background: rgba(255,255,255,0.6); }
+  .sec-header.open { border-bottom-color: var(--border); }
+
+  .sec-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sec-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--ink3);
+    font-style: italic;
+    min-width: 20px;
+  }
+
+  .sec-chevron {
+    font-size: 10px;
+    color: var(--ink3);
+    transition: transform 0.25s;
+  }
+
+  .sec-chevron.open { transform: rotate(180deg); }
+
+  .sec-body {
+    padding: 18px 20px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .sec-body.open { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* NODES */
+  .node {
+    display: inline-flex;
+    flex-direction: column;
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    font-size: 12px;
+    line-height: 1.4;
+    border: 1px solid transparent;
+    cursor: default;
+    transition: filter 0.15s, transform 0.15s;
+    max-width: 320px;
+  }
+
+  .node:hover { filter: brightness(0.96); transform: translateY(-1px); }
+
+  .node .lbl { font-weight: 500; font-size: 12px; }
+  .node .sub { font-size: 11px; margin-top: 2px; opacity: 0.75; }
+
+  /* Decision diamond look */
+  .decision {
+    display: inline-flex;
+    flex-direction: column;
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    font-size: 12px;
+    border: 2px dashed;
+    cursor: default;
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  /* Color variants */
+  .c-purple { background: var(--purple-light); color: var(--purple); border-color: var(--purple-mid); }
+  .c-purple .sub { color: #7A70C8; }
+
+  .c-green { background: var(--green-light); color: var(--green); border-color: var(--green-mid); }
+  .c-green .sub { color: #3A9A80; }
+
+  .c-amber { background: var(--amber-light); color: var(--amber); border-color: var(--amber-mid); }
+  .c-amber .sub { color: #B06A0A; }
+
+  .c-red { background: var(--red-light); color: var(--red); border-color: var(--red-mid); }
+  .c-red .sub { color: #A82020; }
+
+  .c-gray { background: var(--gray-light); color: var(--gray); border-color: var(--gray-mid); }
+  .c-gray .sub { color: #8C8480; }
+
+  .c-blue { background: var(--blue-light); color: var(--blue); border-color: var(--blue-mid); }
+  .c-blue .sub { color: #2A5F9A; }
+
+  .dec-gray { background: var(--gray-light); color: var(--gray); border-color: var(--gray-mid); }
+  .dec-amber { background: var(--amber-light); color: var(--amber); border-color: var(--amber-mid); }
+  .dec-red { background: var(--red-light); color: var(--red); border-color: var(--red-mid); }
+
+  /* LAYOUT HELPERS */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .conn {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .arr {
+    color: var(--ink3);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .label-minor {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink3);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    margin-top: 4px;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 700px) {
+    header { padding: 24px 20px 20px; }
+    .legend-bar { padding: 14px 20px; }
+    main { padding: 20px 20px 48px; }
+    .split { grid-template-columns: 1fr; }
+    header h1 { font-size: 28px; }
+  }
+
+  .split-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .split-col-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>SkinButler — <em>user flow</em></h1>
+    <p>Complete product flow · Free &amp; premium paths · March 2026</p>
+  </div>
+  <div class="header-right">
+    <div>Your Personal Skin Butler</div>
+    <div style="color:var(--ink)">skinbutler.app</div>
+  </div>
+</header>
+
+<div class="legend-bar">
+  <div class="leg"><div class="leg-dot" style="background:#5B4FCF"></div>Premium / scanner</div>
+  <div class="leg"><div class="leg-dot" style="background:#1A7A5E"></div>Free / value</div>
+  <div class="leg"><div class="leg-dot" style="background:#C47A1A"></div>Conversion moment</div>
+  <div class="leg"><div class="leg-dot" style="background:#C43030"></div>Paywall</div>
+  <div class="leg"><div class="leg-dot" style="background:#6B6460"></div>Free (limited)</div>
+  <div class="leg"><div class="leg-dot" style="background:#1A5FA0"></div>Hub / system</div>
+</div>
+
+<main>
+
+  <!-- 1. Entry & Onboarding -->
+  <div class="section">
+    <div class="sec-header open" onclick="tog(this)">
+      <span class="sec-title"><span class="sec-num">1</span> Entry &amp; onboarding</span>
+      <span class="sec-chevron open">▼</span>
+    </div>
+    <div class="sec-body open">
+      <div class="conn">
+        <div class="node c-gray"><div class="lbl">App store download</div></div>
+        <div class="arr">→</div>
+        <div class="node c-gray"><div class="lbl">Splash screen</div><div class="sub">Branding + value prop</div></div>
+        <div class="arr">→</div>
+        <div class="decision dec-gray">Has account?</div>
+      </div>
+      <div class="row" style="margin-left:24px">
+        <div class="col">
+          <div class="label-minor">No</div>
+          <div class="conn">
+            <div class="node c-gray"><div class="lbl">Sign up</div><div class="sub">Email / Apple / Google</div></div>
+            <div class="arr">→</div>
+            <div class="node c-green"><div class="lbl">Skin quiz</div><div class="sub">4–6 questions: type · age · concerns · goals</div></div>
+            <div class="arr">→</div>
+            <div class="node c-green"><div class="lbl">Quiz results</div><div class="sub">Skin profile created · "Now let's see your skin"</div></div>
+          </div>
+        </div>
+        <div class="col" style="justify-content:flex-end">
+          <div class="label-minor">Yes</div>
+          <div class="conn">
+            <div class="node c-gray"><div class="lbl">Log in</div></div>
+            <div class="arr">→</div>
+            <div class="node c-purple"><div class="lbl">Home dashboard</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. First Scan -->
+  <div class="section">
+    <div class="sec-header" onclick="tog(this)">
+      <span class="sec-title"><span class="sec-num">2</span> First scan</span>
+      <span class="sec-chevron">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="conn">
+        <div class="decision dec-gray">Camera permission?</div>
+        <div class="arr">→</div>
+        <div class="node c-gray"><div class="lbl">Denied</div><div class="sub">Permission explainer · retry or skip to dashboard</div></div>
+      </div>
+      <div class="conn">
+        <div class="node c-gray"><div class="lbl">Granted</div></div>
+        <div class="arr">→</div>
+        <div class="node c-purple"><div class="lbl">Face scanner</div><div class="sub">Multi-angle: front · left · right</div></div>
+        <div class="arr">→</div>
+        <div class="node c-purple"><div class="lbl">Processing</div><div class="sub">AI analyzing 12 metrics…</div></div>
+        <div class="arr">→</div>
+        <div class="node c-green"><div class="lbl">Scan results</div><div class="sub">Overall score · 3–4 metrics shown · 8 blurred</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. First Paywall & Split -->
+  <div class="section">
+    <div class="sec-header" onclick="tog(this)">
+      <span class="sec-title"><span class="sec-num">3</span> First paywall &amp; path split</span>
+      <span class="sec-chevron">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="node c-red" style="max-width:none">
+        <div class="lbl">Full paywall screen</div>
+        <div class="sub">7-day free trial · $8.99/mo · $64.99/yr · "See your full skin profile"</div>
+      </div>
+      <div class="split" style="margin-top:4px">
+        <div class="split-col">
+          <div class="split-col-label">Start trial →</div>
+          <div class="node c-green"><div class="lbl">Trial activated</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-purple"><div class="lbl">Full scan results</div><div class="sub">All 12 metrics · face zone map · priority-ranked concerns</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-purple"><div class="lbl">Select 2 concerns</div><div class="sub">Shown in priority order</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-purple"><div class="lbl">Premium plan created</div><div class="sub">4–12 wks · 2 concerns · 5-step routine · milestone schedule</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-purple"><div class="lbl">Home dashboard</div></div>
+        </div>
+        <div class="split-col">
+          <div class="split-col-label">Not now →</div>
+          <div class="node c-gray"><div class="lbl">Free path</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-green"><div class="lbl">Pick 1 concern</div><div class="sub">From 3–4 visible metrics · subtle hint about others</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-green"><div class="lbl">Starter plan created</div><div class="sub">4 wks · 1 concern · 3-step routine · 1 check-in scan</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-purple"><div class="lbl">Home dashboard</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Home Dashboard -->
+  <div class="section">
+    <div class="sec-header" onclick="tog(this)">
+      <span class="sec-title"><span class="sec-num">4</span> Home dashboard — hub</span>
+      <span class="sec-chevron">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="node c-purple" style="max-width:none">
+        <div class="lbl">Home dashboard</div>
+        <div class="sub">Skin score · active plan · today's routine · streak · next scan date</div>
+      </div>
+      <div class="row" style="margin-top:4px">
+        <div class="node c-purple"><div class="lbl">Scanner</div></div>
+        <div class="node c-green"><div class="lbl">My routine</div></div>
+        <div class="node c-gray"><div class="lbl">My plan</div></div>
+        <div class="node c-blue"><div class="lbl">Daily journal</div></div>
+        <div class="node c-purple"><div class="lbl">AI tools</div></div>
+        <div class="node c-gray"><div class="lbl">Products</div></div>
+        <div class="node c-gray"><div class="lbl">Profile</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Daily Journal -->
+  <div class="section">
+    <div class="sec-header" onclick="tog(this)">
+      <span class="sec-title"><span class="sec-num">5</span> Daily journal — the personal butler</span>
+      <span class="sec-chevron">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="conn">
+        <div class="node c-green"><div class="lbl">Daily check-in</div><div class="sub">Free for all · 1-tap: great / good / oily / dry / irritated / breaking out</div></div>
+        <div class="arr">→</div>
+        <div class="node c-gray"><div class="lbl">Optional details</div><div class="sub">Products · sleep · water · stress · weather</div></div>
+        <div class="arr">→</div>
+        <div class="node c-blue"><div class="lbl">Journal intelligence engine</div><div class="sub">Monitors patterns across all entries</div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="label-minor">Conversion triggers from journal engine</div>
+      <div class="row">
+        <div class="node c-amber"><div class="lbl">Breakout trigger</div><div class="sub">Negative entries → diagnostic moment</div></div>
+        <div class="node c-amber"><div class="lbl">Pattern detected</div><div class="sub">Same issue 3+ times in a row</div></div>
+        <div class="node c-amber"><div class="lbl">Complexity signal</div><div class="sub">Conflicting states (oily AM / dry PM)</div></div>
+        <div class="node c-amber"><div class="lbl">Engagement milestone</div><div class="sub">7+ entries logged</div></div>
+        <div class="node c-amber"><div class="lbl">Frustration prevention</div><div class="sub">Consistent + no improvement after 2 weeks</div></div>
+        <div class="node c-green"><div class="lbl">Positive reinforcement</div><div class="sub">Skin improving → celebrate streak</div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="label-minor">Insights tier split</div>
+      <div class="row">
+        <div class="node c-purple"><div class="lbl">Premium journal insights</div><div class="sub">Pattern detection · trigger correlations · weekly/monthly trends · scan ↔ journal correlation</div></div>
+        <div class="node c-gray"><div class="lbl">Free: data logged</div><div class="sub">Entries accumulate · insights unlock with premium</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Routine -->
+  <div class="section">
+    <div class="sec-header" onclick="tog(this)">
+      <span class="sec-title"><span class="sec-num">6</span> Daily routine</span>
+      <span class="sec-chevron">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="row">
+        <div class="node c-green"><div class="lbl">Morning routine</div><div class="sub">Step-by-step checklist · tap to complete · product per step</div></div>
+        <div class="node c-green"><div class="lbl">Evening routine</div><div class="sub">Step-by-step checklist · tap to complete · product per step</div></div>
+        <div class="arr">→</div>
+        <div class="node c-green"><div class="lbl">Routine complete</div><div class="sub">Streak +1 → journal prompt</div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="label-minor">Per-step product choice</div>
+      <div class="row">
+        <div class="node c-gray"><div class="lbl">I have a product</div><div class="sub">Mark owned · manual entry OK · no forced purchase · routine still tracks</div></div>
+        <div class="node c-gray"><div class="lbl">I need a product</div><div class="sub">Affiliate rec · "use what I have" always available</div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="label-minor">Tier split</div>
+      <div class="row">
+        <div class="node c-purple"><div class="lbl">5-step routine (premium)</div><div class="sub">Cleanse · tone · treat · moisturize · protect · 2 concerns · streak tracking</div></div>
+        <div class="node c-gray"><div class="lbl">3-step routine (free)</div><div class="sub">Cleanse · treat · protect · 1 concern · streak tracking</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Skin Plan -->
+  <div class="section">
+    <div class="sec-header" onclick="tog(this)">
+      <span class="sec-title"><span class="sec-num">7</span> Skin plan — the journey</span>
+      <span class="sec-chevron">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="split">
+        <div class="split-col">
+          <div class="split-col-label">Free starter plan</div>
+          <div class="node c-green"><div class="lbl">Starter plan</div><div class="sub">4 wks · 1 concern · 3-step routine · daily journal · 1 check-in scan at week 4</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-green"><div class="lbl">Week 4: check-in scan</div><div class="sub">Push: "Time to see your progress!"</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-green"><div class="lbl">Check-in results</div><div class="sub">Score: 64 → 73 · "Dryness improved!" · real value delivered</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-amber"><div class="lbl">The upgrade moment</div><div class="sub">Shows remaining high-priority concerns (texture, dark spots, pores)</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-red"><div class="lbl">Full paywall screen</div><div class="sub">Contextual: remaining concerns + benefits + trial</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="row">
+            <div class="node c-green"><div class="lbl">Yes → trial</div></div>
+            <div class="node c-gray"><div class="lbl">Not now</div><div class="sub">Pick a new concern · new 4-wk starter plan</div></div>
+          </div>
+        </div>
+        <div class="split-col">
+          <div class="split-col-label">Premium plan</div>
+          <div class="node c-purple"><div class="lbl">Active plan</div><div class="sub">4–12 wks · 2 concerns · check-ins at wk 0 / 3 / 6 / 8–12</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-purple"><div class="lbl">Progress dashboard</div><div class="sub">All 12 metric trends · face map comparison · before/after overlays · journal ↔ scan correlation</div></div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="decision dec-gray">Plan status?</div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="row">
+            <div class="node c-purple"><div class="lbl">In progress</div><div class="sub">Routine auto-adjusts from scan + journal data</div></div>
+            <div class="node c-green"><div class="lbl">Complete</div><div class="sub">Full report · all metrics before/after · face map diff · journal trend summary</div></div>
+          </div>
+          <div class="arr" style="align-self:flex-start">↓</div>
+          <div class="node c-purple"><div class="lbl">Next plan</div><div class="sub">New concerns surfaced · new cycle begins</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Scanner -->
+  <div class="section">
+    <div class="sec-header" onclick="tog(this)">
+      <span class="sec-title"><span class="sec-num">8</span> Scanner — controlled access</span>
+      <span class="sec-chevron">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="conn">
+        <div class="decision dec-gray">Subscribed?</div>
+        <div class="arr">→</div>
+        <div class="node c-purple"><div class="lbl">Yes → scan per plan schedule</div><div class="sub">Check-ins at milestones</div></div>
+      </div>
+      <div class="conn">
+        <div style="width:24px"></div>
+        <div class="node c-gray"><div class="lbl">No → monthly scan available?</div></div>
+        <div class="arr">→</div>
+        <div class="node c-gray"><div class="lbl">Yes → scan</div></div>
+      </div>
+      <div class="conn" style="margin-left:48px">
+        <div class="node c-amber"><div class="lbl">No → locked</div><div class="sub">Bottom sheet: "Next scan in X days" · upgrade CTA · swipe to dismiss</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. AI Tools -->
+  <div class="section">
+    <div class="sec-header" onclick="tog(this)">
+      <span class="sec-title"><span class="sec-num">9</span> AI tools</span>
+      <span class="sec-chevron">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="row">
+        <div class="node c-purple"><div class="lbl">Full access (premium)</div><div class="sub">Dupe finder · compatibility · layering · value check · all scan + journal aware</div></div>
+        <div class="conn">
+          <div class="node c-gray"><div class="lbl">Free → tool previews</div><div class="sub">See what each tool does · sample output shown</div></div>
+          <div class="arr">→</div>
+          <div class="node c-red"><div class="lbl">Paywall screen</div><div class="sub">"Try with your products"</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Product Search -->
+  <div class="section">
+    <div class="sec-header" onclick="tog(this)">
+      <span class="sec-title"><span class="sec-num">10</span> Product search</span>
+      <span class="sec-chevron">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="row">
+        <div class="node c-purple"><div class="lbl">Full price comparison (premium)</div><div class="sub">All stores · lowest price highlighted · savings tracker: "You saved $X this month"</div></div>
+        <div class="node c-gray"><div class="lbl">Standard view (free)</div><div class="sub">Browse · view details · single store link · affiliate revenue earned · no price comparison</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. Push Notifications -->
+  <div class="section">
+    <div class="sec-header" onclick="tog(this)">
+      <span class="sec-title"><span class="sec-num">11</span> Push notifications</span>
+      <span class="sec-chevron">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="row">
+        <div class="node c-green"><div class="lbl">Morning routine</div><div class="sub">Both tiers</div></div>
+        <div class="node c-green"><div class="lbl">Evening routine</div><div class="sub">Both tiers</div></div>
+        <div class="node c-green"><div class="lbl">Check-in scan due</div><div class="sub">Both tiers</div></div>
+        <div class="node c-purple"><div class="lbl">Smart alerts (premium)</div><div class="sub">UV index · price drops · plan milestones · product reminders</div></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function tog(header) {
+  const body = header.nextElementSibling;
+  const chev = header.querySelector('.sec-chevron');
+  const isOpen = body.classList.toggle('open');
+  header.classList.toggle('open', isOpen);
+  chev.classList.toggle('open', isOpen);
+}
+</script>
+</body>
+</html>
